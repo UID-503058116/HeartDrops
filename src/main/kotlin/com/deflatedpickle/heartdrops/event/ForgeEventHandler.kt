@@ -267,7 +267,9 @@ object ForgeEventHandler {
 
     @SubscribeEvent
     fun onAttachCapabilitiesEventEntity(event: AttachCapabilitiesEvent<Entity>) {
-        if (event.`object` !is EntityPlayer) {
+        val entity = event.`object`
+        // 仅附加给 EntityLivingBase 且未附加过该能力的实体
+        if (entity is EntityLivingBase && !entity.hasCapability(DropHearts.Provider.CAPABILITY, null)) {
             event.addCapability(DropHearts.NAME, DropHearts.Provider())
         }
     }
